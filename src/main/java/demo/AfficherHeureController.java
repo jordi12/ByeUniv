@@ -10,6 +10,7 @@ public class AfficherHeureController {
 	 @RequestMapping("/afficherheure")
 	    public String heure(@RequestParam(value="line", required=true) String line,
 	    		@RequestParam(value="name", required=true) String name,Model model) {
+	        model.addAttribute("line", line);
 	        model.addAttribute("name", name);
 	        return "afficherheure";
 	 }
