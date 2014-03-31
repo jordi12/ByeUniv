@@ -2,10 +2,17 @@ package demo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -20,8 +27,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
+    	RequeteLigne test = new RequeteLigne();
         SpringApplication.run(Application.class, args);
+        test.getResultat("78"); 
+    }
+        
+        
+        /*
         try{//read from file
 	        StringWriter content = new StringWriter();   
 	        URL url = new URL("http://pt.data.tisseo.fr/departureBoard?operatorCode=5936&format=json&key=a03561f2fd10641d96fb8188d209414d8");  
@@ -52,10 +65,10 @@ public class Application {
           System.out.println("Error reading file!");  
             
       }//handle exceptions  
-   
-    }//main method  
-}
-    /*
+      */
+       
+     
+
     @Bean
     public ViewResolver getViewResolver(){
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -63,5 +76,4 @@ public class Application {
         resolver.setSuffix(".html");
         return resolver;
     }
-    */
-
+  }
