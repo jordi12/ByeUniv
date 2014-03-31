@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+	<!-- <meta name="viewport" content="width=device-width ,initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+	
+	<style>
+	.ui-block-a img {
+            width  : 100%;
+            max-width:312px;
+            height : auto;
+            margin : 0 auto;
+        }
+        
+	</style> -->
+</head>
+<body id="body">
+    <!-- <FORM METHOD=GET ACTION="localhost:8080/afficherheure">
+
+	Ligne : <P>
+	<TEXTAREA name="line"COLS=40></TEXTAREA> <P>
+	Arret : <P>
+	<TEXTAREA name="name"COLS=20></TEXTAREA> <P>
+	<INPUT type="submit" value="Valider" style="position:relative;left:10">
+	
+	
+	</FORM> -->
+	
+	<div id="testtest" th:text="${arrets}" />
+	<div id="test2"/>
+	
+	<script>
+		var res = document.getElementById('testtest').innerHTML;
+		//document.getElementById('body').appendChild(res);
+		document.getElementById('test2').innerHTML = res;
+		
+		//alert(res.innerHTML);
+	</script>
+	
+	
+</body>
+</html>
