@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LesController {
-
-	@RequestMapping("/greeting")
-	public String greeting(
-			@RequestParam(value = "name", required = false, defaultValue = "World") String name,
+	
+	@RequestMapping("/")
+	public String start(
 			Model model) {
-		model.addAttribute("name", name);
-		return "greeting";
+		return "start";
 	}
 
+	@RequestMapping("/itineraire")
+	public String itineraire(
+			Model model) {
+		return "itineraire";
+	}
+	
 	@RequestMapping("/afficherheure")
 	public String heure(
 			@RequestParam(value = "line", required = true) String line,
@@ -27,6 +31,37 @@ public class LesController {
 		model.addAttribute("line", line);
 		model.addAttribute("name", name);
 		return "afficherheure";
+	}
+	
+	@RequestMapping("/itineraireListeArrets")
+	public String itineraireListArrets(
+			@RequestParam(value = "terme", required = true) String terme,
+			Model model) {
+		
+		ItineraireListeDestinations ild= new ItineraireListeDestinations();
+		HashMap<String, CoordonneArret> resild = ild.getResultat(terme);
+
+		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
+				+ "<div class=\"ui-block-a\"><br/>";
+		for (String mapKey : resild.keySet()) {
+			res = res
+					+ "<a data-role=\"button\" href="
+					+ "\"http://localhost:8080/itineraireResultat?id="
+					+ mapKey
+					+ "&x=" + resild.get(mapKey).getX()
+					+ "&y=" + resild.get(mapKey).getY()
+					+ "&label=" + resild.get(mapKey).getLabel()
+					+ "\" data-ajax= \"false\" data-transition=\"pop\" data-theme=\"b\">"
+					+ resild.get(mapKey).getLabel() + "</a><br/>";
+
+		}
+		res = res + "</div><br/></div><br/>";
+
+		//System.out.println(res);
+
+		model.addAttribute("itineraireListeArrets", res);
+		
+		return "itineraireListeArrets";
 	}
 
 	@RequestMapping("/arrets")
@@ -47,7 +82,7 @@ public class LesController {
 		}
 		res = res + "</div><br/></div><br/>";
 
-		System.out.println(res);
+		//System.out.println(res);
 
 		model.addAttribute("arrets", res);
 		return "arrets";

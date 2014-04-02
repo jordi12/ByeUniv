@@ -28,48 +28,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class Application {
 
     public static void main(String[] args){
-    	RequeteLigne test = new RequeteLigne();
+    	//RequeteLigne test = new RequeteLigne();
         SpringApplication.run(Application.class, args);
-        test.getResultat();
+        /*test.getResultat();
         Horaires test2 = new Horaires();
-        test2.getResultat("1970324837186290");
+        test2.getResultat("1970324837186290");*/
+    	
     }
-        
-        
-        /*
-        try{//read from file
-	        StringWriter content = new StringWriter();   
-	        URL url = new URL("http://pt.data.tisseo.fr/departureBoard?operatorCode=5936&format=json&key=a03561f2fd10641d96fb8188d209414d8");  
-	        URLConnection urlConnection = url.openConnection();  
-	        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));  
-	        String line;  
-	          
-	        //read line from bufferedreader and append to to content(stringwriter)   
-	        //while the bufferedreader returns a line  
-	        while( (line = in.readLine()) != null )  
-	        {  
-	          content.write( line );  
-	        }   
-	          
-	        //close down buffered reader and string writer  
-	        in.close();  
-	        content.close();   
-	          
-	        //output the read in text  
-	        String fileText;  
-	        fileText = content.toString();          
-	        System.out.println(fileText);  
-	        //show success message  
-	        System.out.println("Finished reading file!");  
-	          
-      }catch(IOException e){//handle exceptions  
-            
-          System.out.println("Error reading file!");  
-            
-      }//handle exceptions  
-      */
-       
-     
 
     @Bean
     public ViewResolver getViewResolver(){
