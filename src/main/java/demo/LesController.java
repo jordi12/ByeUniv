@@ -111,4 +111,25 @@ public class LesController {
 		model.addAttribute("horaires", res);
 		return "horaires";
 	}
+	
+	@RequestMapping("/velo")
+	public String velo(Model model) {
+		VeloDisponible vd = new VeloDisponible();
+		HashMap<String, Integer> resvd = vd.getResultat();
+
+		System.out.println(resvd.toString());
+
+		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
+				+ "<div class=\"ui-block-a\"><br/>";
+		for (String mapKey : resvd.keySet()) {
+			res = res
+					+ "<a data-ajax= \"false\" data-transition=\"pop\" data-theme=\"a\">"
+					+ mapKey + "Vélos disponibles : " + resvd.get(mapKey).toString() + "</a><br/>";
+
+		}
+		res = res + "</div><br/></div><br/>";
+
+		model.addAttribute("velo", res);
+		return "velo";
+	}
 }
