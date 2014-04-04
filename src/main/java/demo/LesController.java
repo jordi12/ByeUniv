@@ -10,19 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LesController {
-	
+
 	@RequestMapping("/")
-	public String start(
-			Model model) {
+	public String start(Model model) {
 		return "start";
 	}
 
 	@RequestMapping("/itineraire")
-	public String itineraire(
-			Model model) {
+	public String itineraire(Model model) {
 		return "itineraire";
 	}
-	
+
 	@RequestMapping("/afficherheure")
 	public String heure(
 			@RequestParam(value = "line", required = true) String line,
@@ -32,13 +30,13 @@ public class LesController {
 		model.addAttribute("name", name);
 		return "afficherheure";
 	}
-	
+
 	@RequestMapping("/itineraireListeArrets")
 	public String itineraireListArrets(
 			@RequestParam(value = "terme", required = true) String terme,
 			Model model) {
-		
-		ItineraireListeDestinations ild= new ItineraireListeDestinations();
+
+		ItineraireListeDestinations ild = new ItineraireListeDestinations();
 		HashMap<String, CoordonneArret> resild = ild.getResultat(terme);
 
 		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
@@ -48,19 +46,20 @@ public class LesController {
 					+ "<a data-role=\"button\" href="
 					+ "\"http://localhost:8080/itineraireResultat?id="
 					+ mapKey
-					+ "&x=" + resild.get(mapKey).getX()
-					+ "&y=" + resild.get(mapKey).getY()
-					+ "&label=" + resild.get(mapKey).getLabel()
+					+ "&x="
+					+ resild.get(mapKey).getX()
+					+ "&y="
+					+ resild.get(mapKey).getY()
+					+ "&label="
+					+ resild.get(mapKey).getLabel()
 					+ "\" data-ajax= \"false\" data-transition=\"pop\" data-theme=\"b\">"
 					+ resild.get(mapKey).getLabel() + "</a><br/>";
 
 		}
 		res = res + "</div><br/></div><br/>";
 
-		//System.out.println(res);
-
 		model.addAttribute("itineraireListeArrets", res);
-		
+
 		return "itineraireListeArrets";
 	}
 
@@ -81,8 +80,6 @@ public class LesController {
 
 		}
 		res = res + "</div><br/></div><br/>";
-
-		//System.out.println(res);
 
 		model.addAttribute("arrets", res);
 		return "arrets";
@@ -106,30 +103,56 @@ public class LesController {
 		}
 		res = res + "</div><br/></div><br/>";
 
-		System.out.println(res);
-
 		model.addAttribute("horaires", res);
 		return "horaires";
 	}
-	
+
 	@RequestMapping("/velo")
 	public String velo(Model model) {
 		VeloDisponible vd = new VeloDisponible();
 		HashMap<String, Integer> resvd = vd.getResultat();
-
-		System.out.println(resvd.toString());
 
 		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
 				+ "<div class=\"ui-block-a\"><br/>";
 		for (String mapKey : resvd.keySet()) {
 			res = res
 					+ "<a data-ajax= \"false\" data-transition=\"pop\" data-theme=\"a\">"
-					+ mapKey + "Vélos disponibles : " + resvd.get(mapKey).toString() + "</a><br/>";
+					+ mapKey + "Vélos disponibles : "
+					+ resvd.get(mapKey).toString() + "</a><br/>";
 
 		}
 		res = res + "</div><br/></div><br/>";
 
 		model.addAttribute("velo", res);
 		return "velo";
+	}
+	
+	@RequestMapping("/itineraireResultat")
+	public String itineraireResultat(
+			@RequestParam(value = "id", required = true) String id,
+			@RequestParam(value = "x", required = true) String x,
+			@RequestParam(value = "y", required = true) String y,
+			@RequestParam(value = "label", required = true) String label,
+			Model model) {
+		ItineraireResultat ir = new ItineraireResultat();
+		ArrayList<Horaire> resir = ir.getResultat(id, x, y);
+
+		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
+				+ "<div class=\"ui-block-a\"><br/>";
+		System.out.println("controller : nb result "+ resir.size());
+		for (int i = 0; i < resir.size(); i++) {
+			res = res
+					+ "<a data-role=\"button\"" /* +href=" + "lien" + */
+					+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"a\">"
+					+ " Ligne : " + resir.get(i).getLigne() + " Horaire : "
+					+ resir.get(i).getHeure() + "</a><br/>";
+
+		}
+		res = res + "</div><br/></div><br/>";
+
+		System.out.println(res);
+
+		model.addAttribute("itineraireResultat", res);
+		return "itineraireResultat";
 	}
 }
