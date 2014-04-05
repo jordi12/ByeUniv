@@ -64,19 +64,23 @@ public class ItineraireResultat {
 			HashMap<String, String> listeLignesCommunes2) {
 
 		ArrayList<Horaire> res = new ArrayList<Horaire>();
-
+		
+		
+		//System.out.println("HORAIRE DEPART" + horairesDepart.toString());
 		// on garde les communs
-		for (int i = 0; i < horairesDepart.size(); i++)
+		for (int i = 0; i < horairesDepart.size(); i++){
 			for (String mapKey : listeLignesCommunes2.keySet()) {
-				if (listeLignesCommunes2.get(mapKey) == horairesDepart.get(i)
-						.getLigne()) {
+				//System.out.println("LISTE COMMUNES" + listeLignesCommunes2.get(mapKey).toString());
+				if (listeLignesCommunes2.get(mapKey).equals(horairesDepart.get(i).getLigne())) {
+					//System.out.println("coucou");
 					res.add(horairesDepart.get(i));
 				}
 			}
+		}
 
-		// on trie par horaire
-		horairesDepart=tribulles(horairesDepart);
-
+		// on trie par horaire PROBLEME POUR REMPLIR RES
+		//System.out.println("RES RES RES" + res.toString());
+		horairesDepart=tribulles(res);//modifié horaireDepart par res (pas sur)
 		return horairesDepart;
 	}
 
@@ -97,7 +101,7 @@ public class ItineraireResultat {
 						16));
 				Integer secondes2 = Integer.parseInt((String) s2.subSequence(
 						17, 19));
-				if (heures1 < heures2
+				if ((heures1 < heures2)
 						|| (heures1 == heures2 && minutes1 < minutes2)
 						|| (heures1 == heures2 && minutes1 == minutes2 && secondes1 < secondes2)) {
 					Horaire aux = horairesDepart.get(j - 1);
@@ -105,6 +109,7 @@ public class ItineraireResultat {
 					horairesDepart.set(j, aux);
 				}
 			}
+		System.out.println("BULLE BULLE BULLE" + horairesDepart.toString());
 		return horairesDepart;
 	}
 
@@ -112,15 +117,23 @@ public class ItineraireResultat {
 			HashMap<String, String> listeLignesDepart2,
 			HashMap<String, String> listeLignesArrivee2) {
 
-		HashMap<String, String> res = listeLignesArrivee2;
+		HashMap<String, String> res = new HashMap<String,String>();
 
-		for (String mapKey : listeLignesDepart2.keySet()) {
-			res.put(mapKey, listeLignesDepart2.get(mapKey));
+		//MODIFIE ICI AUSSI listeLignesArrivee2 et listeLignesDepart2 identique
+		for (String mapKeyArr : listeLignesArrivee2.keySet()) {
+			for (String mapKeyDep : listeLignesDepart2.keySet()) {
+				if(mapKeyArr.equals(mapKeyDep)) {
+					res.put(mapKeyArr, listeLignesDepart2.get(mapKeyArr));
+				}
+			}	
 		}
+		System.out.println("res : avant tribulle nb result "+ res.toString());
+		System.out.println("listeLignesArrivee2 : avant tribulle nb result "+ listeLignesArrivee2.toString());
+		System.out.println("listeLignesDepart2 : avant tribulle nb result "+ listeLignesDepart2.toString());
 
 		return res;
 	}
-
+	//fonctionne
 	public ArrayList<Horaire> horairesDepart() {
 		Horaires h = new Horaires();
 		RequeteLigne rl = new RequeteLigne();
@@ -128,9 +141,11 @@ public class ItineraireResultat {
 		ArrayList<Horaire> listHoraires = new ArrayList<Horaire>();
 
 		for (String idArea : listIdStopArea.keySet()) {
+			
 			listHoraires.addAll(h.getResultat(idArea));
 		}
-
+		//System.out.println("coucou" + listIdStopArea.toString());
+		//System.out.println("coucou" + listHoraires.toString());
 		return listHoraires;
 
 	}
@@ -141,15 +156,16 @@ public class ItineraireResultat {
 		RequeteLigne rl = new RequeteLigne();
 		HashMap<String, String> resrl = rl.getResultat();
 
-		for (String mapKey : resrl.keySet())
+		for (String mapKey : resrl.keySet()){
 			listeLignes = getLignes(mapKey, listeLignes);
-
+		}
+		System.out.println("lol" + listeLignes.toString());
 		return listeLignes;
 	}
 
 	public HashMap<String, String> getLignes(String idStopArea,
 			HashMap<String, String> listeLignes) {
-
+		//1970324837184714
 		try {
 			URL url = new URL(
 					"http://pt.data.tisseo.fr/stopPointsList?stopAreaId="
@@ -181,7 +197,7 @@ public class ItineraireResultat {
 			System.out.println("Error reading file!");
 
 		}
-
+		//System.out.println("lol" + listeLignes.toString());
 		return listeLignes;
 	}
 
