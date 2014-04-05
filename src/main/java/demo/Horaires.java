@@ -20,6 +20,7 @@ public class Horaires {
 	public ArrayList<Horaire> getResultat(String id) {
 		String ligne = "";
 		String heure = "";
+		String name = "";
 		try {
 			URL url = new URL(
 					"http://pt.data.tisseo.fr/departureBoard?stopPointId="
@@ -37,7 +38,8 @@ public class Horaires {
 					System.out.println("test3 : " + result);
 					heure = result.getString("dateTime");
 					ligne = result.getJsonObject("line").getString("shortName");
-					listeHoraires.add(new Horaire(ligne, heure));
+					name = results0.getJsonObject("stop").getString("name");					
+					listeHoraires.add(new Horaire(ligne, heure, name));
 				} catch (Exception e) {// handle exceptions
 					System.out.println("Error reading file!");
 				}

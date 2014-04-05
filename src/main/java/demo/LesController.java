@@ -96,7 +96,7 @@ public class LesController {
 		for (int i = 0; i < reshs.size(); i++) {
 			res = res
 					+ "<a data-role=\"button\"" /* +href=" + "lien" + */
-					+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"a\">"
+					+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"c\">"
 					+ " Ligne : " + reshs.get(i).getLigne() + " Horaire : "
 					+ reshs.get(i).getHeure() + "</a><br/>";
 
@@ -110,14 +110,15 @@ public class LesController {
 	@RequestMapping("/velo")
 	public String velo(Model model) {
 		VeloDisponible vd = new VeloDisponible();
-		HashMap<String, Integer> resvd = vd.getResultat();
+		
+		HashMap<String, Integer> resvd = vd.getResultat(43.557055,1.461593,43.570054,1.467988);
 
 		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
 				+ "<div class=\"ui-block-a\"><br/>";
 		for (String mapKey : resvd.keySet()) {
 			res = res
-					+ "<a data-ajax= \"false\" data-transition=\"pop\" data-theme=\"a\">"
-					+ mapKey + "Vélos disponibles : "
+					+ "<a data-role=\"button\" data-ajax= \"false\" data-transition=\"pop\" data-theme=\"c\">"
+					+ mapKey + " Vélos disponibles : "
 					+ resvd.get(mapKey).toString() + "</a><br/>";
 
 		}
@@ -143,7 +144,8 @@ public class LesController {
 		for (int i = 0; i < resir.size(); i++) {
 			res = res
 					+ "<a data-role=\"button\"" /* +href=" + "lien" + */
-					+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"a\">"
+					+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"c\">"
+					+ " Station départ : " + resir.get(i).getLabelLieu()
 					+ " Ligne : " + resir.get(i).getLigne() + " Horaire : "
 					+ resir.get(i).getHeure() + "</a><br/>";
 
@@ -151,6 +153,8 @@ public class LesController {
 		res = res + "</div><br/></div><br/>";
 
 		System.out.println(res);
+		
+		
 
 		model.addAttribute("itineraireResultat", res);
 		return "itineraireResultat";

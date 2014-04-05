@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -36,7 +38,7 @@ public class ItineraireResultat {
 
 	public ArrayList<Horaire> getResultat(String idStopAreaArrivee, String xArr, String yArr) {
 		listeLignesArrivee = getLignes(idStopAreaArrivee, listeLignesArrivee);
-		listeLignesDepart = getLignesDepart(listeLignesArrivee);
+		listeLignesDepart = getLignesDepart(listeLignesDepart);
 
 		listeLignesCommunes = matchLignes(listeLignesDepart, listeLignesArrivee);
 
@@ -59,20 +61,35 @@ public class ItineraireResultat {
 		
 		return horairesDepart;
 	}
+	
+	public HashMap<String, Double> getResultatVelo(String xArr, String yArr) {
+		VeloDisponible vd = new VeloDisponible();
+		return vd.getStationPlusProche(Double.valueOf(xArr), Double.valueOf(yArr));
+	}
 
+	/**
+	 * @param distance en km
+	 * @param vitesse en km/h
+	 * @return
+	 */
+	public static int calculTemp() {
+		return 0;
+		
+	}
+	
 	private ArrayList<Horaire> triLignes(ArrayList<Horaire> horairesDepart,
 			HashMap<String, String> listeLignesCommunes2) {
 
 		ArrayList<Horaire> res = new ArrayList<Horaire>();
 		
 		
-		//System.out.println("HORAIRE DEPART" + horairesDepart.toString());
+		System.out.println("HORAIRE DEPART : " + horairesDepart.toString());
+		System.out.println("Ligne communes : " + listeLignesCommunes2.toString());
 		// on garde les communs
 		for (int i = 0; i < horairesDepart.size(); i++){
 			for (String mapKey : listeLignesCommunes2.keySet()) {
 				//System.out.println("LISTE COMMUNES" + listeLignesCommunes2.get(mapKey).toString());
 				if (listeLignesCommunes2.get(mapKey).equals(horairesDepart.get(i).getLigne())) {
-					//System.out.println("coucou");
 					res.add(horairesDepart.get(i));
 				}
 			}
@@ -80,8 +97,8 @@ public class ItineraireResultat {
 
 		// on trie par horaire PROBLEME POUR REMPLIR RES
 		//System.out.println("RES RES RES" + res.toString());
-		horairesDepart=tribulles(res);//modifié horaireDepart par res (pas sur)
-		return horairesDepart;
+		res=tribulles(res);
+		return res;
 	}
 
 	public ArrayList<Horaire> tribulles(ArrayList<Horaire> horairesDepart) {
@@ -109,7 +126,7 @@ public class ItineraireResultat {
 					horairesDepart.set(j, aux);
 				}
 			}
-		System.out.println("BULLE BULLE BULLE" + horairesDepart.toString());
+		//System.out.println("BULLE BULLE BULLE" + horairesDepart.toString());
 		return horairesDepart;
 	}
 
@@ -119,21 +136,20 @@ public class ItineraireResultat {
 
 		HashMap<String, String> res = new HashMap<String,String>();
 
-		//MODIFIE ICI AUSSI listeLignesArrivee2 et listeLignesDepart2 identique
 		for (String mapKeyArr : listeLignesArrivee2.keySet()) {
 			for (String mapKeyDep : listeLignesDepart2.keySet()) {
 				if(mapKeyArr.equals(mapKeyDep)) {
-					res.put(mapKeyArr, listeLignesDepart2.get(mapKeyArr));
+					res.put(mapKeyDep, listeLignesDepart2.get(mapKeyDep));
 				}
 			}	
 		}
-		System.out.println("res : avant tribulle nb result "+ res.toString());
-		System.out.println("listeLignesArrivee2 : avant tribulle nb result "+ listeLignesArrivee2.toString());
-		System.out.println("listeLignesDepart2 : avant tribulle nb result "+ listeLignesDepart2.toString());
+		//System.out.println("res : avant tribulle nb result "+ res.toString());
+		//System.out.println("listeLignesArrivee2 : avant tribulle nb result "+ listeLignesArrivee2.toString());
+		//System.out.println("listeLignesDepart2 : avant tribulle nb result "+ listeLignesDepart2.toString());
 
 		return res;
 	}
-	//fonctionne
+
 	public ArrayList<Horaire> horairesDepart() {
 		Horaires h = new Horaires();
 		RequeteLigne rl = new RequeteLigne();
@@ -143,10 +159,17 @@ public class ItineraireResultat {
 		for (String idArea : listIdStopArea.keySet()) {
 			
 			listHoraires.addAll(h.getResultat(idArea));
+			//listHoraires.addAll(h.getResultat(idArea));
 		}
+		
+		// Créer une liste de contenu unique basée sur les éléments de ArrayList
+	    Set<Horaire> enleverDoublons = new HashSet<Horaire>(listHoraires);
+	 
+	    // Créer une Nouvelle ArrayList à partir de Set
+	    ArrayList<Horaire> listeHoraireSansDoublons = new ArrayList<Horaire>(enleverDoublons);
 		//System.out.println("coucou" + listIdStopArea.toString());
-		//System.out.println("coucou" + listHoraires.toString());
-		return listHoraires;
+		//System.out.println("listeHoraireSansDoublons" + listeHoraireSansDoublons.toString());
+		return listeHoraireSansDoublons;
 
 	}
 
@@ -159,7 +182,7 @@ public class ItineraireResultat {
 		for (String mapKey : resrl.keySet()){
 			listeLignes = getLignes(mapKey, listeLignes);
 		}
-		System.out.println("lol" + listeLignes.toString());
+		//System.out.println("lol" + listeLignes.toString());
 		return listeLignes;
 	}
 
