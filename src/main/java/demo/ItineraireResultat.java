@@ -56,7 +56,7 @@ public class ItineraireResultat {
 		// on les classe par ordre et on garde que ceux correspondant à la
 		// listeCommune
 
-		System.out.println("getResultat : avant tribulle nb result "+ horairesDepart.size());
+		//System.out.println("getResultat : avant tribulle nb result "+ horairesDepart.size());
 		horairesDepart = triLignes(horairesDepart, listeLignesCommunes);
 		
 		return horairesDepart;
@@ -83,8 +83,8 @@ public class ItineraireResultat {
 		ArrayList<Horaire> res = new ArrayList<Horaire>();
 		
 		
-		System.out.println("HORAIRE DEPART : " + horairesDepart.toString());
-		System.out.println("Ligne communes : " + listeLignesCommunes2.toString());
+		//System.out.println("HORAIRE DEPART : " + horairesDepart.toString());
+		//System.out.println("Ligne communes : " + listeLignesCommunes2.toString());
 		// on garde les communs
 		for (int i = 0; i < horairesDepart.size(); i++){
 			for (String mapKey : listeLignesCommunes2.keySet()) {
