@@ -30,7 +30,7 @@ public class VeloDisponible {
 			for (JsonObject result : listeVelosFrance.getValuesAs(JsonObject.class)) {
 				String ville = result.getString("contract_name");
 				String status = result.getString("status");
-				//System.out.println(status + ville);
+				
 				if(ville.equals("Toulouse") && status.equals("OPEN")){
 					JsonObject position = result.getJsonObject("position");
 					JsonNumber lat  = position.getJsonNumber("lat");
@@ -38,7 +38,6 @@ public class VeloDisponible {
 					JsonNumber lng  = position.getJsonNumber("lng");
 					double lngdouble = lng.doubleValue();
 					
-					System.out.println(lat.toString() + " " + lng.toString()+"\n");
 					if(latdouble > latPointBasGauche && latdouble < latPointHautDroit && lngdouble > lngPointBasGauche && lngdouble < lngPointHautDroit) {
 						int avalaibleBikes = result.getInt("available_bikes");
 						String name = result.getString("name");
@@ -77,10 +76,9 @@ public class VeloDisponible {
 					JsonNumber lng  = position.getJsonNumber("lng");
 					double lngdouble = lng.doubleValue();
 					
-					System.out.println(lat.toString() + " " + lng.toString()+"\n");
 					if( ItineraireResultat.distanceVolOiseauEntre2PointsSansPrécision(destlat, destlng, lat.doubleValue(), lng.doubleValue()) < resdist) {
 						resNbVelos = result.getInt("available_bikes");
-						resNbPlacesLibres =  result.getInt("available_bikes_stands");
+						resNbPlacesLibres =  result.getInt("available_bike_stands");
 						resName = result.getString("name");
 						resdist = ItineraireResultat.distanceVolOiseauEntre2PointsSansPrécision(destlat, destlng, lat.doubleValue(), lng.doubleValue());
 					}
@@ -90,9 +88,9 @@ public class VeloDisponible {
 			System.out.println("Error reading file!");
 		}
 
-		HashMap resreturn = new HashMap<String, Double>();
+		resdist = ItineraireResultat.distanceVolOiseauEntre2PointsSansPrécision(destlat, destlng, Double.parseDouble(ItineraireResultat.yDepart), Double.parseDouble(ItineraireResultat.xDepart));
+		HashMap<String, Double> resreturn = new HashMap<String, Double>();
 		resreturn.put(resName, resdist);
-		
 		return resreturn;
 	}
 }

@@ -110,8 +110,9 @@ public class LesController {
 	@RequestMapping("/velo")
 	public String velo(Model model) {
 		VeloDisponible vd = new VeloDisponible();
-		
-		HashMap<String, Integer> resvd = vd.getResultat(43.557055,1.461593,43.570054,1.467988);
+
+		HashMap<String, Integer> resvd = vd.getResultat(43.557055, 1.461593,
+				43.570054, 1.467988);
 
 		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
 				+ "<div class=\"ui-block-a\"><br/>";
@@ -127,7 +128,7 @@ public class LesController {
 		model.addAttribute("velo", res);
 		return "velo";
 	}
-	
+
 	@RequestMapping("/itineraireResultat")
 	public String itineraireResultat(
 			@RequestParam(value = "id", required = true) String id,
@@ -138,23 +139,40 @@ public class LesController {
 		ItineraireResultat ir = new ItineraireResultat();
 		ArrayList<Horaire> resir = ir.getResultat(id, x, y);
 
+		HashMap<String, Double> resirV = ir.getResultatVelo(x, y);
+
+		double tempsBus = ItineraireResultat.calculTempToMinute(
+				ir.getDistance(), 30);
+		double tempsVelo=0;
+		for(String mapKey : resirV.keySet()) {
+			tempsVelo = ItineraireResultat.calculTempToMinute(
+					resirV.get(mapKey), 12);	
+		}
+
 		String res = "<div class=\"ui-grid-a ui-responsive\"><br/>"
-				+ "<div class=\"ui-block-a\"><br/>";
-		System.out.println("controller : nb result "+ resir.size());
+				+ "<div class=\"ui-block-a\">";
 		for (int i = 0; i < resir.size(); i++) {
 			res = res
 					+ "<a data-role=\"button\"" /* +href=" + "lien" + */
 					+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"c\">"
 					+ " Station départ : " + resir.get(i).getLabelLieu()
-					+ " Ligne : " + resir.get(i).getLigne() + " Horaire : "
+					+ " Temps estimé : " + (int) tempsBus + " minutes <br/>" + " Ligne : "
+					+ resir.get(i).getLigne() + " Horaire : "
 					+ resir.get(i).getHeure() + "</a><br/>";
 
 		}
-		res = res + "</div><br/></div><br/>";
 
-		System.out.println(res);
+		res = res + "</div>" + "<div class=\"ui-block-b\">";
 		
+		res = res
+				+ "<a data-role=\"button\"" /* +href=" + "lien" + */
+				+ " data-ajax= \"false\" data-transition=\"pop\" data-theme=\"c\">"
+				+ " Vélo " + "<br/>"
+				+ " Temps estimé : " + (int) tempsVelo + " minutes <br/>" 
+				+ "</a><br/>";
 		
+		res = res + "</div>" + "</div>";
+
 
 		model.addAttribute("itineraireResultat", res);
 		return "itineraireResultat";

@@ -22,31 +22,31 @@ public class ItineraireResultat {
 	private HashMap<String, String> listeLignesArrivee;
 	private HashMap<String, String> listeLignesDepart;
 	private HashMap<String, String> listeLignesCommunes;
-	private String xDepart;
-	private String yDepart;
+	public static String xDepart = "1.464790";
+	public static String yDepart = "43.563554";
 	private String xArrivee;
 	private String yArrivee;
+	private double distanceVol;
 
 	public ItineraireResultat() {
 		listeLignesArrivee = new HashMap<String, String>();
 		listeLignesDepart = new HashMap<String, String>();
 		// bbox depart : 1.461593 43.557055 1.467988 43.570054 -> on prend les
 		// milieux de la bbox
-		xDepart = "1.464790";
-		yDepart = "43.563554";
 	}
 
-	public ArrayList<Horaire> getResultat(String idStopAreaArrivee, String xArr, String yArr) {
+	public ArrayList<Horaire> getResultat(String idStopAreaArrivee,
+			String xArr, String yArr) {
 		listeLignesArrivee = getLignes(idStopAreaArrivee, listeLignesArrivee);
 		listeLignesDepart = getLignesDepart(listeLignesDepart);
 
 		listeLignesCommunes = matchLignes(listeLignesDepart, listeLignesArrivee);
 
-		xArrivee=xArr;
-		yArrivee=yArr;
-		
+		xArrivee = xArr;
+		yArrivee = yArr;
+
 		// on doit calculer la distance grace à la méthode
-		double distanceDepartArriveeVolOiseau = distanceVolOiseauEntre2PointsSansPrécision(
+		distanceVol = distanceVolOiseauEntre2PointsSansPrécision(
 				Double.parseDouble(xDepart), Double.parseDouble(yDepart),
 				Double.parseDouble(xArrivee), Double.parseDouble(yArrivee));
 		// on doit choisir le plus rapide :
@@ -56,48 +56,45 @@ public class ItineraireResultat {
 		// on les classe par ordre et on garde que ceux correspondant à la
 		// listeCommune
 
-		//System.out.println("getResultat : avant tribulle nb result "+ horairesDepart.size());
 		horairesDepart = triLignes(horairesDepart, listeLignesCommunes);
-		
+
 		return horairesDepart;
 	}
-	
+
 	public HashMap<String, Double> getResultatVelo(String xArr, String yArr) {
 		VeloDisponible vd = new VeloDisponible();
-		return vd.getStationPlusProche(Double.valueOf(xArr), Double.valueOf(yArr));
+		return vd.getStationPlusProche(Double.valueOf(yArr),
+				Double.valueOf(xArr));
 	}
 
 	/**
-	 * @param distance en km
-	 * @param vitesse en km/h
-	 * @return
+	 * @param distance
+	 *            en km
+	 * @param vitesse
+	 *            en km/h
+	 * @return temps en minutes
 	 */
-	public static int calculTemp() {
-		return 0;
-		
+	public static double calculTempToMinute(double d, double v) {
+		return (d / v) * 60;
 	}
-	
+
 	private ArrayList<Horaire> triLignes(ArrayList<Horaire> horairesDepart,
 			HashMap<String, String> listeLignesCommunes2) {
 
 		ArrayList<Horaire> res = new ArrayList<Horaire>();
-		
-		
-		//System.out.println("HORAIRE DEPART : " + horairesDepart.toString());
-		//System.out.println("Ligne communes : " + listeLignesCommunes2.toString());
+
 		// on garde les communs
-		for (int i = 0; i < horairesDepart.size(); i++){
+		for (int i = 0; i < horairesDepart.size(); i++) {
 			for (String mapKey : listeLignesCommunes2.keySet()) {
-				//System.out.println("LISTE COMMUNES" + listeLignesCommunes2.get(mapKey).toString());
-				if (listeLignesCommunes2.get(mapKey).equals(horairesDepart.get(i).getLigne())) {
+				if (listeLignesCommunes2.get(mapKey).equals(
+						horairesDepart.get(i).getLigne())) {
 					res.add(horairesDepart.get(i));
 				}
 			}
 		}
 
-		// on trie par horaire PROBLEME POUR REMPLIR RES
-		//System.out.println("RES RES RES" + res.toString());
-		res=tribulles(res);
+		// on trie par horaire
+		res = tribulles(res);
 		return res;
 	}
 
@@ -126,7 +123,6 @@ public class ItineraireResultat {
 					horairesDepart.set(j, aux);
 				}
 			}
-		//System.out.println("BULLE BULLE BULLE" + horairesDepart.toString());
 		return horairesDepart;
 	}
 
@@ -134,19 +130,16 @@ public class ItineraireResultat {
 			HashMap<String, String> listeLignesDepart2,
 			HashMap<String, String> listeLignesArrivee2) {
 
-		HashMap<String, String> res = new HashMap<String,String>();
+		HashMap<String, String> res = new HashMap<String, String>();
 
 		for (String mapKeyArr : listeLignesArrivee2.keySet()) {
 			for (String mapKeyDep : listeLignesDepart2.keySet()) {
-				if(mapKeyArr.equals(mapKeyDep)) {
+				if (mapKeyArr.equals(mapKeyDep)) {
 					res.put(mapKeyDep, listeLignesDepart2.get(mapKeyDep));
 				}
-			}	
+			}
 		}
-		//System.out.println("res : avant tribulle nb result "+ res.toString());
-		//System.out.println("listeLignesArrivee2 : avant tribulle nb result "+ listeLignesArrivee2.toString());
-		//System.out.println("listeLignesDepart2 : avant tribulle nb result "+ listeLignesDepart2.toString());
-
+	
 		return res;
 	}
 
@@ -157,18 +150,17 @@ public class ItineraireResultat {
 		ArrayList<Horaire> listHoraires = new ArrayList<Horaire>();
 
 		for (String idArea : listIdStopArea.keySet()) {
-			
+
 			listHoraires.addAll(h.getResultat(idArea));
-			//listHoraires.addAll(h.getResultat(idArea));
+			// listHoraires.addAll(h.getResultat(idArea));
 		}
-		
+
 		// Créer une liste de contenu unique basée sur les éléments de ArrayList
-	    Set<Horaire> enleverDoublons = new HashSet<Horaire>(listHoraires);
-	 
-	    // Créer une Nouvelle ArrayList à partir de Set
-	    ArrayList<Horaire> listeHoraireSansDoublons = new ArrayList<Horaire>(enleverDoublons);
-		//System.out.println("coucou" + listIdStopArea.toString());
-		//System.out.println("listeHoraireSansDoublons" + listeHoraireSansDoublons.toString());
+		Set<Horaire> enleverDoublons = new HashSet<Horaire>(listHoraires);
+
+		// Créer une Nouvelle ArrayList à partir de Set
+		ArrayList<Horaire> listeHoraireSansDoublons = new ArrayList<Horaire>(
+				enleverDoublons);
 		return listeHoraireSansDoublons;
 
 	}
@@ -179,16 +171,15 @@ public class ItineraireResultat {
 		RequeteLigne rl = new RequeteLigne();
 		HashMap<String, String> resrl = rl.getResultat();
 
-		for (String mapKey : resrl.keySet()){
+		for (String mapKey : resrl.keySet()) {
 			listeLignes = getLignes(mapKey, listeLignes);
 		}
-		//System.out.println("lol" + listeLignes.toString());
 		return listeLignes;
 	}
 
 	public HashMap<String, String> getLignes(String idStopArea,
 			HashMap<String, String> listeLignes) {
-		//1970324837184714
+		// 1970324837184714
 		try {
 			URL url = new URL(
 					"http://pt.data.tisseo.fr/stopPointsList?stopAreaId="
@@ -220,7 +211,6 @@ public class ItineraireResultat {
 			System.out.println("Error reading file!");
 
 		}
-		//System.out.println("lol" + listeLignes.toString());
 		return listeLignes;
 	}
 
@@ -242,13 +232,29 @@ public class ItineraireResultat {
 	 * @return
 	 */
 	public static double distanceVolOiseauEntre2PointsSansPrécision(
-			double lat1, double lon1, double lat2, double lon2) {
+			double lat_a, double lon_a, double lat_b, double lon_b) {
 
 		// d=acos(sin(lat1)*sin(lat2)+cos(lat1)*cos(lat2)*cos(lon1-lon2))
 
-		return Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1)
-				* Math.cos(lat2) * Math.cos(lon1 - lon2));
+		// return Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1)
+		// * Math.cos(lat2) * Math.cos(lon1 - lon2)) * 6366;
 
+		double a = Math.PI / 180;
+		double lat1 = lat_a * a;
+		double lat2 = lat_b * a;
+		double lon1 = lon_a * a;
+		double lon2 = lon_b * a;
+		double t1 = Math.sin(lat1) * Math.sin(lat2);
+		double t2 = Math.cos(lat1) * Math.cos(lat2);
+		double t3 = Math.cos(lon1 - lon2);
+		double t4 = t2 * t3;
+		double t5 = t1 + t4;
+		double rad_dist = Math.atan(-t5 / Math.sqrt(-t5 * t5 + 1)) + 2 * Math.atan(1);
+		return (rad_dist * 3437.74677 * 1.1508) * 1.6093470878864446;
+	}
+
+	public double getDistance() {
+		return distanceVol;
 	}
 
 }
