@@ -1,12 +1,34 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+
+<title>ByeUniv - afficherheure </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+	<meta name="viewport" content="width=device-width ,initial-scale=1" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+	
+	<style>
+	.ui-block-a img {
+            width  : 100%;
+            max-width:312px;
+            height : auto;
+            margin : 0 auto;
+        }
+        
+	</style>
+
 </head>
 <body>
+	<div data-role="header">
+		<a href="http://localhost:8080/" data-icon="home"
+			data-transition="pop" data-theme="b">Home</a>
+		<h1>ByeUniv</h1>
+	</div>
 
-    <p th:text="'Hello, ' + ${name} + '!'" />
-    <p th:text="'Hello, ' + ${line} + '!'" />
+	<p th:text="'Hello, ' + ${name} + '!'" />
+	<p th:text="'Hello, ' + ${line} + '!'" />
 </body>
 </html>

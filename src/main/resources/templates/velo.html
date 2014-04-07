@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>velo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     
 	<meta name="viewport" content="width=device-width ,initial-scale=1" />
@@ -20,6 +20,11 @@
 	</style>
 </head>
 <body id="body">
+	<div data-role="header">
+		<a href="http://localhost:8080/" data-icon="home"
+			data-transition="pop" data-theme="b">Home</a>
+		<h1>ByeUniv</h1>
+	</div>
 	
 	<div th:utext="${velo}" />
 	
