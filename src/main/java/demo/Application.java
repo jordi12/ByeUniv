@@ -22,18 +22,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.util.*;
+
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class Application {
 
     public static void main(String[] args){
-    	//RequeteLigne test = new RequeteLigne();
         SpringApplication.run(Application.class, args);
-        /*test.getResultat();
-        Horaires test2 = new Horaires();
-        test2.getResultat("1970324837186290");*/
-    	
+        
     }
 
     @Bean
