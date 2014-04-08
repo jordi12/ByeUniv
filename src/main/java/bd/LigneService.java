@@ -10,6 +10,8 @@ public interface LigneService {
 	public void deleteData(String id);
 
 	public Ligne getUser(String id);
+	
+	public Ligne getLigne(String id);
 
 	public void updateData(Ligne ligne);
 }

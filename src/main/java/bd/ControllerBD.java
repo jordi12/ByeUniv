@@ -20,7 +20,7 @@ public class ControllerBD {
 
 	/*
 	@RequestMapping("/register")
-	public ModelAndView registerUser(@ModelAttribute User user) {
+	public ModelAndView registerUser(@ModelAttribute Ligne ligne) {
 
 		List<String> genderList = new ArrayList<String>();
 		genderList.add("male");
@@ -37,14 +37,14 @@ public class ControllerBD {
 		map.put("cityList", cityList);
 		return new ModelAndView("register", "map", map);
 	}
-
+	 */
 	@RequestMapping("/insert")
-	public String inserData(@ModelAttribute User user) {
-		if (user != null)
-			userService.insertData(user);
+	public String inserData(@ModelAttribute Ligne ligne) {
+		if (ligne != null)
+			ligneService.insertData(ligne);
 		return "redirect:/getList";
 	}
-	*/
+
 	
 	@RequestMapping("/getList")
 	public ModelAndView getLigneList() {

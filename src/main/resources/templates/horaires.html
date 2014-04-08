@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>ByeUniv - horaires</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     
 	<meta name="viewport" content="width=device-width ,initial-scale=1" />
@@ -20,18 +20,13 @@
 	</style>
 </head>
 <body id="body">
-    <!-- <FORM METHOD=GET ACTION="localhost:8080/afficherheure">
-
-	Ligne : <P>
-	<TEXTAREA name="line"COLS=40></TEXTAREA> <P>
-	Arret : <P>
-	<TEXTAREA name="name"COLS=20></TEXTAREA> <P>
-	<INPUT type="submit" value="Valider" style="position:relative;left:10">
+    <div data-role="header">
+		<a href="http://localhost:8080/" data-icon="home"
+			data-transition="pop" data-theme="b">Home</a>
+		<h1>ByeUniv</h1>
+	</div>
 	
-	
-	</FORM> -->
-	
-	<div id="testtest" th:utext="${horaires}" />
+	<div th:utext="${horaires}" />
 	
 	
 </body>

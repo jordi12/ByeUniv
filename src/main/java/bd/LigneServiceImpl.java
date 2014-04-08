@@ -19,10 +19,9 @@ public abstract class LigneServiceImpl implements LigneService {
 		
 	}
 	
-	/*
 	@Override
 	public void deleteData(String id) {
-		Lignedao.deleteData(id);
+		lignedao.deleteData(id);
 		
 	}
 
@@ -36,7 +35,7 @@ public abstract class LigneServiceImpl implements LigneService {
 	public void insertData(Ligne ligne) {
 		lignedao.insertData(ligne);
 	}
- 	*/
+
 	
 	
 

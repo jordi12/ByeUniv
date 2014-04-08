@@ -14,7 +14,7 @@ public class LigneDaoImpl implements LigneDao {
 	public List<Ligne> getLigneList() {
 		List<Ligne> ligneList = new ArrayList<Ligne>();
 
-		String sql = "select * from user";
+		String sql = "select * from ligne";
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		ligneList = jdbcTemplate.query(sql, new LigneRowMapper());
@@ -29,38 +29,39 @@ public class LigneDaoImpl implements LigneDao {
 
 		jdbcTemplate.update(
 				sql,
-				new Object[] { ligne.getId(), ligne.getShortName(),ligne.getVote() });
+				new Object[] { ligne.getId(), ligne.getShortName(),
+						ligne.getVote() });
 
 	}
-	
-	public void insertData(Ligne ligne) {  
-		  
-		  String sql = "INSERT INTO ligne "  
-		    + "(id,shortName,vote,) VALUES (?, ?, ?)";  
-		  
-		  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-		  
-		  jdbcTemplate.update(  sql,  new Object[] { ligne.getId(), ligne.getShortName(), ligne.getVote()});  
-		  }  
-		  
-		  
-		 @Override  
-		 public void deleteData(String id) {  
-		  String sql = "delete from ligne where id=" + id;  
-		  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-		  jdbcTemplate.update(sql);  
-		  
-		 }  
 
-		  
-		 @Override  
-		 public Ligne getLigne(String id) {  
-		  List<Ligne> ligneList = new ArrayList<Ligne>();  
-		  String sql = "select * from ligne where id= " + id;  
-		  JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  
-		  ligneList = jdbcTemplate.query(sql, new LigneRowMapper());  
-		  return ligneList.get(0);  
-		 }  
-		  
-	}  
+	public void insertData(Ligne ligne) {
 
+		String sql = "INSERT INTO ligne "
+				+ "(id,shortName,vote,) VALUES (?, ?, ?)";
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		jdbcTemplate.update(
+				sql,
+				new Object[] { ligne.getId(), ligne.getShortName(),
+						ligne.getVote() });
+	}
+
+	@Override
+	public void deleteData(String id) {
+		String sql = "delete from ligne where id=" + id;
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(sql);
+
+	}
+
+	@Override
+	public Ligne getLigne(String id) {
+		List<Ligne> ligneList = new ArrayList<Ligne>();
+		String sql = "select * from ligne where id= " + id;
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		ligneList = jdbcTemplate.query(sql, new LigneRowMapper());
+		return ligneList.get(0);
+	}
+
+}
