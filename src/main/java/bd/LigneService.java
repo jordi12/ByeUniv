@@ -8,8 +8,6 @@ public interface LigneService {
 	public List<Ligne> getLigneList();
 
 	public void deleteData(String id);
-
-	public Ligne getUser(String id);
 	
 	public Ligne getLigne(String id);
 
