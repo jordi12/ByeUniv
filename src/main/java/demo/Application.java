@@ -36,6 +36,7 @@ public class Application {
 
     public static void main(String[] args){
         SpringApplication.run(Application.class, args);
+        /*
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(org.h2.Driver.class);
         dataSource.setUsername("sa");
@@ -72,6 +73,7 @@ public class Application {
         for (Customer customer : results) {
             System.out.println(customer);
         }
+        */
     }
 
     @Bean
