@@ -145,7 +145,7 @@ public class ItineraireResultat {
 
 	public ArrayList<Horaire> horairesDepart() {
 		Horaires h = new Horaires();
-		RequeteLigne rl = new RequeteLigne();
+		StopAreas rl = new StopAreas();
 		HashMap<String, String> listIdStopArea = rl.getResultat();
 		ArrayList<Horaire> listHoraires = new ArrayList<Horaire>();
 
@@ -165,10 +165,10 @@ public class ItineraireResultat {
 
 	}
 
-	private HashMap<String, String> getLignesDepart(
+	public HashMap<String, String> getLignesDepart(
 			HashMap<String, String> listeLignes) {
 
-		RequeteLigne rl = new RequeteLigne();
+		StopAreas rl = new StopAreas();
 		HashMap<String, String> resrl = rl.getResultat();
 
 		for (String mapKey : resrl.keySet()) {

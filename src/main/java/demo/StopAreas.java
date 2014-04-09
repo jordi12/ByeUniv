@@ -10,11 +10,11 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
-public class RequeteLigne {
+public class StopAreas {
 
 	private HashMap<String, String> listeArrets;
 
-	public RequeteLigne() {
+	public StopAreas() {
 
 		listeArrets = new HashMap<String, String>();
 	}
@@ -36,7 +36,6 @@ public class RequeteLigne {
 				listeArrets.put(idS, nameS);
 
 			}
-			System.out.println(listeArrets.toString());
 
 		} catch (IOException e) {// handle exceptions
 
